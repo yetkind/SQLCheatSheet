@@ -338,13 +338,13 @@ COMMIT;
 
 #### 1. Avoiding SELECT \*
 
-Bad:
+Bad Practice:
 
 ```sql
 SELECT * FROM users;
 ```
 
-Fixed:
+Better Approach:
 
 ```sql
 SELECT id, name, email FROM users;
@@ -352,13 +352,13 @@ SELECT id, name, email FROM users;
 
 #### 2. Adding Index for Faster WHERE
 
-Bad:
+Bad Practice:
 
 ```sql
 SELECT * FROM orders WHERE customer_id = 123;
 ```
 
-Fixed:
+Better Approach:
 
 ```sql
 -- Add index first:
@@ -368,13 +368,13 @@ SELECT id, total FROM orders WHERE customer_id = 123;
 
 #### 3. Replacing Subquery with JOIN
 
-Bad:
+Bad Practice:
 
 ```sql
 SELECT name FROM employees WHERE department_id IN (SELECT id FROM departments WHERE name = 'HR');
 ```
 
-Fixed:
+Better Approach:
 
 ```sql
 SELECT e.name FROM employees e
@@ -384,7 +384,7 @@ WHERE d.name = 'HR';
 
 #### 4. Filtering Before JOIN (Push Down Filter)
 
-Bad:
+Bad Practice:
 
 ```sql
 SELECT * FROM sales s
@@ -392,7 +392,7 @@ JOIN customers c ON s.customer_id = c.id
 WHERE c.region = 'West';
 ```
 
-Fixed:
+Better Approach:
 
 ```sql
 SELECT * FROM sales s
@@ -401,13 +401,13 @@ JOIN (SELECT * FROM customers WHERE region = 'West') c ON s.customer_id = c.id;
 
 #### 5. Avoiding Functions in WHERE Clause
 
-Bad:
+Bad Practice:
 
 ```sql
 SELECT * FROM products WHERE YEAR(created_at) = 2024;
 ```
 
-Fixed:
+Better Approach:
 
 ```sql
 SELECT * FROM products WHERE created_at BETWEEN '2024-01-01' AND '2024-12-31';
